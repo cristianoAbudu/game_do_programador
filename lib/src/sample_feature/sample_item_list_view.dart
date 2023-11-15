@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../settings/settings_view.dart';
-import 'sample_item.dart';
+import 'profissional_ti.dart';
 import 'sample_item_details_view.dart';
 
 /// Displays a list of ProfissionalTIs.
@@ -12,98 +12,98 @@ class ProfissionalTIListView extends StatelessWidget {
     this.items = const [
       ProfissionalTI(
         'Desenvolvedor Front-End',
+        1231,
+        12000,
+        23132,
+        23,
         0,
-        10000,
-        1,
-        1,
-        1,
       ),
       ProfissionalTI(
         'Desenvolvedor Back-End',
-        0,
-        10000,
-        1,
-        1,
+        342,
+        13000,
+        432,
+        432,
         1,
       ),
       ProfissionalTI(
         'Desenvolvedor Full-Stack',
-        0,
-        10000,
-        1,
-        1,
+        12,
+        8000,
+        231,
+        213,
         1,
       ),
       ProfissionalTI(
         'Desenvolvedor Mobile',
-        0,
-        10000,
-        1,
-        1,
+        31,
+        5000,
+        321,
+        1122,
         1,
       ),
       ProfissionalTI(
         'Desenvolvedor Desktop',
-        0,
+        321,
         10000,
-        1,
-        1,
-        1,
+        1645,
+        6541,
+        0,
       ),
       ProfissionalTI(
         'Desenvolvedor de Jogos',
-        0,
+        6524,
         10000,
-        1,
-        1,
+        765,
+        65234,
         1,
       ),
       ProfissionalTI(
         'Desenvolvedor de Sistemas Embarcados',
-        0,
+        342,
         10000,
-        1,
-        1,
+        7654,
+        18765,
         1,
       ),
       ProfissionalTI(
         'Product Owner',
-        0,
+        5643,
         10000,
-        1,
-        1,
+        57653,
+        23,
         1,
       ),
       ProfissionalTI(
         'Scrum Master',
-        0,
-        10000,
-        1,
-        1,
+        43634,
+        15000,
+        6432,
+        45132,
         1,
       ),
       ProfissionalTI(
         'Analista de Requisitos',
-        0,
+        5432,
         10000,
-        1,
-        1,
+        765,
+        1623,
         1,
       ),
       ProfissionalTI(
         'Analista de Suporte',
+        67543,
+        600,
+        6245,
+        6432,
         0,
-        10000,
-        1,
-        1,
-        1,
       ),
       ProfissionalTI(
         'Analista de Banco de Dados',
-        0,
-        10000,
-        1,
-        1,
+        9768,
+        9000,
+        6357,
+        653,
         1,
       ),
     ],
@@ -125,7 +125,7 @@ class ProfissionalTIListView extends StatelessWidget {
               // Navigate to the settings page. If the user leaves and returns
               // to the app after it has been killed while running in the
               // background, the navigation stack is restored.
-              Navigator.restorablePushNamed(context, SettingsView.routeName);
+              Navigator.restorablePushNamed(context, SettingsView.routeName, arguments: items);
             },
           ),
         ],
@@ -159,6 +159,7 @@ class ProfissionalTIListView extends StatelessWidget {
               Navigator.restorablePushNamed(
                 context,
                 ProfissionalTIDetailsView.routeName,
+                arguments: item.toMap(),
               );
             }
           );
