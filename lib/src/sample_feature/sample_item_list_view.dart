@@ -6,10 +6,18 @@ import 'sample_item_details_view.dart';
 
 /// Displays a list of ProfissionalTIs.
 class ProfissionalTIListView extends StatelessWidget {
-  const ProfissionalTIListView({
+  ProfissionalTIListView({
     super.key,
     // Onde vamos sortear as cartas
-    this.items = const [
+  });
+
+  List<ProfissionalTI> items = [];
+  List<ProfissionalTI> cartasDoOponente = [];
+
+  static const routeName = '/';
+
+  void getProfissionalTIItems() {
+    List<ProfissionalTI> baralho = List.from(const [
       ProfissionalTI(
         'Desenvolvedor Front-End',
         1231,
@@ -106,15 +114,23 @@ class ProfissionalTIListView extends StatelessWidget {
         653,
         1,
       ),
-    ],
-  });
+    ]);
 
-  static const routeName = '/';
-
-  final List<ProfissionalTI> items;
+    baralho.shuffle();
+    baralho.forEach((element) {
+      if (items.length < 6) {
+        items.add(element);
+      } else {
+        cartasDoOponente.add(element);
+      }
+    });
+    
+  }
 
   @override
   Widget build(BuildContext context) {
+    getProfissionalTIItems();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cartas na Mão'),
@@ -159,7 +175,11 @@ class ProfissionalTIListView extends StatelessWidget {
               Navigator.restorablePushNamed(
                 context,
                 ProfissionalTIDetailsView.routeName,
-                arguments: item.toMap(),
+                arguments: {
+                  'items': items.map((item) => item.toMap()).toList(),
+                  'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
+                  'item': item.toMap(),
+                },
               );
             }
           );

@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
                     return const ProfissionalTIDetailsView();
                   case ProfissionalTIListView.routeName:
                   default:
-                    return const ProfissionalTIListView();
+                    return ProfissionalTIListView();
                 }
               },
             );

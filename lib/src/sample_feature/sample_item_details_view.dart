@@ -14,9 +14,22 @@ class ProfissionalTIDetailsView extends StatefulWidget {
 class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
   var _selectedPropertyController = '';
 
+  var item ;
+  var items ;
+  var cartasDoOponente;
+  var cartaDoOponente;
+
   @override
   Widget build(BuildContext context) {
-    final item = ProfissionalTI.fromMap(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>);
+    
+    final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    item = ProfissionalTI.fromMap(arguments['item'] as Map<String, dynamic>);
+    items = (arguments['items'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
+    cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
+    
+    final cartasDoOponenteEmbaralhadas = List.from(cartasDoOponente);
+    cartasDoOponenteEmbaralhadas.shuffle();
+    cartaDoOponente = cartasDoOponenteEmbaralhadas.first;
 
     return Scaffold(
       appBar: AppBar(
@@ -186,24 +199,72 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
           ),
           ElevatedButton(
             onPressed: () {
+              print(cartaDoOponente.toMap());
+              
               if(_selectedPropertyController == 'dificuldadeDeAprender'){
                 // vence o menor
+                if(item.dificuldadeDeAprender < cartaDoOponente.dificuldadeDeAprender){
+                  venceu();
+                }else{
+                  perdeu();
+                }
               }else if(_selectedPropertyController == 'dificuldadeDeArranjarEmprego'){
                 // vence o menor 
+                if(item.dificuldadeDeArranjarEmprego < cartaDoOponente.dificuldadeDeArranjarEmprego){
+                  venceu();
+                }else{
+                  perdeu();
+                }
               }else if(_selectedPropertyController == 'salario'){
                 // vence o maior
+                if(item.salario > cartaDoOponente.salario){
+                  venceu(); 
+                }else{
+                  perdeu();
+                }
               }else if(_selectedPropertyController == 'stress'){
                 // vence o menor
+                if(item.stress < cartaDoOponente.stress){
+                  venceu();
+                }else{
+                  perdeu();
+                }
               }else if(_selectedPropertyController == 'vagasInternacionais'){
                 // vence o maior
+                if(item.vagasInternacionais > cartaDoOponente.vagasInternacionais){
+                  venceu();
+                }else{
+                  perdeu();
+                }
               }
 
-              print(_selectedPropertyController);
             },
             child: Text('Jogar!'),
           ),
         ],
       ),
     );
+  }
+  
+
+  void venceu() {
+    print('venceu');
+    // remove a carta do oponente
+    cartasDoOponente.remove(cartaDoOponente);
+    items.add(cartaDoOponente);
+   
+    print(items.length);
+    print(cartasDoOponente.length);
+  }
+
+  void perdeu() {
+    print('perdeu');
+    // remove a carta do oponente
+    cartasDoOponente.add(item);
+    items.remove(item);
+   
+    print(items.length);
+    print(cartasDoOponente.length);
+    
   }
 }
