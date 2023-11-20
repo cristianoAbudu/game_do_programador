@@ -13,10 +13,45 @@ class ProfissionalTIListView extends StatelessWidget {
 
   List<ProfissionalTI> items = [];
   List<ProfissionalTI> cartasDoOponente = [];
+    
+    
+  var floatingActionButton;
+  var gameMessage;
 
   static const routeName = '/';
 
-  void getProfissionalTIItems() {
+  void colocarBotaoReset(){
+    // mostro o botao de reset
+    floatingActionButton.show();
+  }
+
+  void reset(){
+    // oculto botao de reset
+    floatingActionButton.hide();
+    
+    // embaralho as cartas
+    embaralhar();
+  }
+
+  void getProfissionalTIItems(BuildContext context) {
+
+    if(ModalRoute.of(context)!.settings.arguments!= null){
+      final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      items = (arguments['items'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
+      cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
+      if(items.length == 0){
+        gameMessage = 'Você perdeu o jogo!';
+        colocarBotaoReset();
+      }else if(items.length == 12){
+        gameMessage = 'Você venceu o jogo!';
+        colocarBotaoReset();
+      }
+    }else{
+      embaralhar();
+    }
+  }
+
+  void embaralhar() {
     List<ProfissionalTI> baralho = List.from(const [
       ProfissionalTI(
         'Desenvolvedor Front-End',
@@ -115,7 +150,7 @@ class ProfissionalTIListView extends StatelessWidget {
         1,
       ),
     ]);
-
+    
     baralho.shuffle();
     baralho.forEach((element) {
       if (items.length < 6) {
@@ -123,13 +158,13 @@ class ProfissionalTIListView extends StatelessWidget {
       } else {
         cartasDoOponente.add(element);
       }
-    });
     
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    getProfissionalTIItems();
+    getProfissionalTIItems(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -185,6 +220,18 @@ class ProfissionalTIListView extends StatelessWidget {
           );
         },
       ),
+      // crie um botao oculto para resetar o jogo ele deverá chamar o método reset() quando clicado e deve começar oculto
+      floatingActionButton: Visibility(
+        visible: false, // Set the initial visibility to false
+        child: FloatingActionButton(
+          onPressed: () {
+            reset();
+          },
+          tooltip: 'Resetar Jogo',
+          child: Icon(Icons.restart_alt),
+        ),
+      ),
+      
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_do_programador/src/sample_feature/profissional_ti.dart';
+import 'package:game_do_programador/src/sample_feature/sample_item_list_view.dart';
 
 /// Displays detailed information about a ProfissionalTI.
 class ProfissionalTIDetailsView extends StatefulWidget {
@@ -237,6 +238,14 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   perdeu();
                 }
               }
+               Navigator.restorablePushNamed(
+                context,
+                ProfissionalTIListView.routeName,
+                arguments: {
+                  'items': items.map((item) => item.toMap()).toList(),
+                  'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
+                },
+              );
 
             },
             child: Text('Jogar!'),
@@ -255,16 +264,29 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
    
     print(items.length);
     print(cartasDoOponente.length);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Você venceu!'),
+      ),
+    );
   }
 
   void perdeu() {
     print('perdeu');
     // remove a carta do oponente
     cartasDoOponente.add(item);
-    items.remove(item);
+    // remove from items the item that has nome equal to item.nome
+    items.removeWhere((element) => element.nome == item.nome);
    
     print(items.length);
     print(cartasDoOponente.length);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Você perdeu!'),
+      ),
+    );
     
   }
 }
