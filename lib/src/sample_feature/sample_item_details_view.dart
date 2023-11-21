@@ -238,7 +238,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   perdeu();
                 }
               }
-               Navigator.restorablePushNamed(
+              Navigator.restorablePushNamed(
                 context,
                 ProfissionalTIListView.routeName,
                 arguments: {

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import '../settings/settings_view.dart';
@@ -17,23 +18,37 @@ class ProfissionalTIListView extends StatelessWidget {
     
   var floatingActionButton;
   var gameMessage;
+  var floatingActionButtonVisible = false;
+  var context;
 
   static const routeName = '/';
 
   void colocarBotaoReset(){
     // mostro o botao de reset
-    floatingActionButton.show();
+    items = [];
+    cartasDoOponente = [];
+    floatingActionButtonVisible= true;
   }
 
   void reset(){
     // oculto botao de reset
-    floatingActionButton.hide();
+    floatingActionButtonVisible = false;
     
     // embaralho as cartas
     embaralhar();
+
+    Navigator.restorablePushNamed(
+      context,
+      ProfissionalTIListView.routeName,
+      arguments: {
+        'items': items.map((item) => item.toMap()).toList(),
+        'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
+      },
+    );
   }
 
   void getProfissionalTIItems(BuildContext context) {
+    this.context = context;
 
     if(ModalRoute.of(context)!.settings.arguments!= null){
       final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
@@ -52,6 +67,9 @@ class ProfissionalTIListView extends StatelessWidget {
   }
 
   void embaralhar() {
+    items = [];
+    cartasDoOponente = [];
+
     List<ProfissionalTI> baralho = List.from(const [
       ProfissionalTI(
         'Desenvolvedor Front-End',
@@ -188,41 +206,50 @@ class ProfissionalTIListView extends StatelessWidget {
       // In contrast to the default ListView constructor, which requires
       // building all Widgets up front, the ListView.builder constructor lazily
       // builds Widgets as they’re scrolled into view.
-      body: ListView.builder(
-        // Providing a restorationId allows the ListView to restore the
-        // scroll position when a user leaves and returns to the app after it
-        // has been killed while running in the background.
-        restorationId: 'ProfissionalTIListView',
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
+      body: Column(
+        children: [
+          Text(gameMessage ?? ""), // Add a Text widget to display the gameMessage
+          Expanded(
+            child: ListView.builder(
+              // Providing a restorationId allows the ListView to restore the
+              // scroll position when a user leaves and returns to the app after it
+              // has been killed while running in the background.
+              restorationId: 'ProfissionalTIListView',
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final item = items[index];
 
-          return ListTile(
-            title: Text('${item.nome}'),
-            leading: CircleAvatar(
-              // Display the Flutter Logo image asset.
-              foregroundImage: AssetImage('assets/images/${item.nome}.jpeg'),
+                return ListTile(
+                  title: Text('${item.nome}'),
+                  leading: CircleAvatar(
+                    // Display the Flutter Logo image asset.
+                    foregroundImage: AssetImage('assets/images/${item.nome}.jpeg'),
+                  ),
+                  onTap: () {
+                    // Navigate to the details page. If the user leaves and returns to
+                    // the app after it has been killed while running in the
+                    // background, the navigation stack is restored.
+                    Navigator.restorablePushNamed(
+                      context,
+                      ProfissionalTIDetailsView.routeName,
+                      arguments: {
+                        'items': items.map((item) => item.toMap()).toList(),
+                        'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
+                        'item': item.toMap(),
+                      },
+                    );
+                  },
+                );
+              },
             ),
-            onTap: () {
-              // Navigate to the details page. If the user leaves and returns to
-              // the app after it has been killed while running in the
-              // background, the navigation stack is restored.
-              Navigator.restorablePushNamed(
-                context,
-                ProfissionalTIDetailsView.routeName,
-                arguments: {
-                  'items': items.map((item) => item.toMap()).toList(),
-                  'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
-                  'item': item.toMap(),
-                },
-              );
-            }
-          );
-        },
+          ),
+        ],
       ),
+
+
       // crie um botao oculto para resetar o jogo ele deverá chamar o método reset() quando clicado e deve começar oculto
       floatingActionButton: Visibility(
-        visible: false, // Set the initial visibility to false
+        visible: floatingActionButtonVisible, // Set the initial visibility to false
         child: FloatingActionButton(
           onPressed: () {
             reset();
