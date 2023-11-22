@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:game_do_programador/src/sample_feature/profissional_ti.dart';
 import 'package:game_do_programador/src/sample_feature/sample_item_list_view.dart';
@@ -19,6 +21,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
   var items ;
   var cartasDoOponente;
   var cartaDoOponente;
+  var minhaVez;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
     item = ProfissionalTI.fromMap(arguments['item'] as Map<String, dynamic>);
     items = (arguments['items'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
     cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
-    
+    minhaVez = (arguments['minhaVez'] as bool);
+
+
     final cartasDoOponenteEmbaralhadas = List.from(cartasDoOponente);
     cartasDoOponenteEmbaralhadas.shuffle();
     cartaDoOponente = cartasDoOponenteEmbaralhadas.first;
@@ -38,6 +43,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
       ),
       body: Column(
         children: [
+          Text(minhaVez ? 'Minha vez' : 'Vez do oponente'),
           Image.asset(
             'assets/images/${item.nome}.jpeg',
             fit: BoxFit.cover,
@@ -51,7 +57,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'dificuldadeDeAprender';
+                        if(minhaVez){
+                          _selectedPropertyController = 'dificuldadeDeAprender';
+                        }
                       });
                     },
                     child: TableCell(
@@ -64,7 +72,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'dificuldadeDeAprender';
+                         if(minhaVez){
+                          _selectedPropertyController = 'dificuldadeDeAprender';
+                        }
                       });
                     },
                     child: TableCell(
@@ -81,7 +91,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'dificuldadeDeArranjarEmprego';
+                         if(minhaVez){
+                          _selectedPropertyController = 'dificuldadeDeArranjarEmprego';
+                        }
                       });
                     },
                     child: TableCell(
@@ -94,7 +106,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'dificuldadeDeArranjarEmprego';
+                         if(minhaVez){
+                          _selectedPropertyController = 'dificuldadeDeArranjarEmprego';
+                        }
                       });
                     },
                     child: TableCell(
@@ -111,7 +125,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'salario';
+                        if(minhaVez){
+                          _selectedPropertyController = 'salario';
+                        }
                       });
                     },
                     child: TableCell(
@@ -124,7 +140,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'salario';
+                        if(minhaVez){
+                          _selectedPropertyController = 'salario';
+                        }
                       });
                     },
                     child: TableCell(
@@ -141,7 +159,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'stress';
+                        if(minhaVez){
+                          _selectedPropertyController = 'stress';
+                        }
                       });
                     },
                     child: TableCell(
@@ -154,7 +174,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'stress';
+                        if(minhaVez){
+                          _selectedPropertyController = 'stress';
+                        }
                       });
                     },
                     child: TableCell(
@@ -171,7 +193,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'vagasInternacionais';
+                        if(minhaVez){
+                          _selectedPropertyController = 'vagasInternacionais';
+                        }
                       });
                     },
                     child: TableCell(
@@ -184,7 +208,9 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedPropertyController = 'vagasInternacionais';
+                        if(minhaVez){
+                          _selectedPropertyController = 'vagasInternacionais';
+                        }
                       });
                     },
                     child: TableCell(
@@ -201,6 +227,13 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
           ElevatedButton(
             onPressed: () {
               print(cartaDoOponente.toMap());
+
+              if(!minhaVez){
+                // if minhaVez is false then select a random value from _selectedPropertyController possibilities
+                final _selectedPropertyControllerPossibilities = ['dificuldadeDeAprender', 'dificuldadeDeArranjarEmprego', 'salario', 'stress', 'vagasInternacionais'];
+                // get a random value from _selectedPropertyControllerPossibilities and assign it to _selectedPropertyController
+                _selectedPropertyController = _selectedPropertyControllerPossibilities[Random().nextInt(_selectedPropertyControllerPossibilities.length)];
+              }
               
               if(_selectedPropertyController == 'dificuldadeDeAprender'){
                 // vence o menor
@@ -244,6 +277,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                 arguments: {
                   'items': items.map((item) => item.toMap()).toList(),
                   'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
+                  'minhaVez': !minhaVez,
                 },
               );
 

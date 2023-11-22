@@ -1,21 +1,18 @@
-
 import 'package:flutter/material.dart';
 
 import '../settings/settings_view.dart';
 import 'profissional_ti.dart';
 import 'sample_item_details_view.dart';
 
-/// Displays a list of ProfissionalTIs.
 class ProfissionalTIListView extends StatelessWidget {
   ProfissionalTIListView({
     super.key,
-    // Onde vamos sortear as cartas
   });
 
   List<ProfissionalTI> items = [];
   List<ProfissionalTI> cartasDoOponente = [];
-    
-    
+  bool minhaVez = true;
+
   var floatingActionButton;
   var gameMessage;
   var floatingActionButtonVisible = false;
@@ -23,19 +20,16 @@ class ProfissionalTIListView extends StatelessWidget {
 
   static const routeName = '/';
 
-  void colocarBotaoReset(){
-    // mostro o botao de reset
+  void colocarBotaoReset() {
     items = [];
     cartasDoOponente = [];
-    floatingActionButtonVisible= true;
+    floatingActionButtonVisible = true;
   }
 
-  void reset(){
-    // oculto botao de reset
+  void reset() {
     floatingActionButtonVisible = false;
-    
-    // embaralho as cartas
     embaralhar();
+    minhaVez = true;
 
     Navigator.restorablePushNamed(
       context,
@@ -43,6 +37,7 @@ class ProfissionalTIListView extends StatelessWidget {
       arguments: {
         'items': items.map((item) => item.toMap()).toList(),
         'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
+        'minhaVez': minhaVez,
       },
     );
   }
@@ -50,18 +45,20 @@ class ProfissionalTIListView extends StatelessWidget {
   void getProfissionalTIItems(BuildContext context) {
     this.context = context;
 
-    if(ModalRoute.of(context)!.settings.arguments!= null){
+    if (ModalRoute.of(context)!.settings.arguments != null) {
       final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       items = (arguments['items'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
       cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
-      if(items.length == 0){
+      minhaVez = (arguments['minhaVez'] as bool);
+
+      if (items.length == 0) {
         gameMessage = 'Você perdeu o jogo!';
         colocarBotaoReset();
-      }else if(items.length == 12){
+      } else if (items.length == 12) {
         gameMessage = 'Você venceu o jogo!';
         colocarBotaoReset();
       }
-    }else{
+    } else {
       embaralhar();
     }
   }
@@ -168,7 +165,7 @@ class ProfissionalTIListView extends StatelessWidget {
         1,
       ),
     ]);
-    
+
     baralho.shuffle();
     baralho.forEach((element) {
       if (items.length < 6) {
@@ -176,7 +173,6 @@ class ProfissionalTIListView extends StatelessWidget {
       } else {
         cartasDoOponente.add(element);
       }
-    
     });
   }
 
@@ -191,29 +187,17 @@ class ProfissionalTIListView extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // Navigate to the settings page. If the user leaves and returns
-              // to the app after it has been killed while running in the
-              // background, the navigation stack is restored.
               Navigator.restorablePushNamed(context, SettingsView.routeName, arguments: items);
             },
           ),
         ],
       ),
-
-      // To work with lists that may contain a large number of items, it’s best
-      // to use the ListView.builder constructor.
-      //
-      // In contrast to the default ListView constructor, which requires
-      // building all Widgets up front, the ListView.builder constructor lazily
-      // builds Widgets as they’re scrolled into view.
       body: Column(
         children: [
-          Text(gameMessage ?? ""), // Add a Text widget to display the gameMessage
+          Text(gameMessage ?? ""),
+          Text(minhaVez ? 'Minha vez' : 'Vez do oponente'),
           Expanded(
             child: ListView.builder(
-              // Providing a restorationId allows the ListView to restore the
-              // scroll position when a user leaves and returns to the app after it
-              // has been killed while running in the background.
               restorationId: 'ProfissionalTIListView',
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
@@ -222,13 +206,9 @@ class ProfissionalTIListView extends StatelessWidget {
                 return ListTile(
                   title: Text('${item.nome}'),
                   leading: CircleAvatar(
-                    // Display the Flutter Logo image asset.
                     foregroundImage: AssetImage('assets/images/${item.nome}.jpeg'),
                   ),
                   onTap: () {
-                    // Navigate to the details page. If the user leaves and returns to
-                    // the app after it has been killed while running in the
-                    // background, the navigation stack is restored.
                     Navigator.restorablePushNamed(
                       context,
                       ProfissionalTIDetailsView.routeName,
@@ -236,6 +216,7 @@ class ProfissionalTIListView extends StatelessWidget {
                         'items': items.map((item) => item.toMap()).toList(),
                         'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
                         'item': item.toMap(),
+                        'minhaVez': minhaVez,
                       },
                     );
                   },
@@ -245,11 +226,8 @@ class ProfissionalTIListView extends StatelessWidget {
           ),
         ],
       ),
-
-
-      // crie um botao oculto para resetar o jogo ele deverá chamar o método reset() quando clicado e deve começar oculto
       floatingActionButton: Visibility(
-        visible: floatingActionButtonVisible, // Set the initial visibility to false
+        visible: floatingActionButtonVisible,
         child: FloatingActionButton(
           onPressed: () {
             reset();
@@ -258,7 +236,6 @@ class ProfissionalTIListView extends StatelessWidget {
           child: Icon(Icons.restart_alt),
         ),
       ),
-      
     );
   }
 }
