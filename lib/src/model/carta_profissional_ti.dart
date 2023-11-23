@@ -1,12 +1,14 @@
-class ProfissionalTI {
-  const ProfissionalTI(
+import 'package:game_do_programador/src/model/carta.dart';
+
+class ProfissionalTI extends Carta {
+  ProfissionalTI(
     this.nome,
     this.stress,
     this.salario,
     this.dificuldadeDeAprender,
     this.dificuldadeDeArranjarEmprego,
     this.vagasInternacionais,
-  );
+  ) : super();
   
   final String nome;
   final int stress;
@@ -14,6 +16,7 @@ class ProfissionalTI {
   final int dificuldadeDeAprender;
   final int dificuldadeDeArranjarEmprego;
   final int vagasInternacionais;
+  String poderSelecionado;
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,6 +26,7 @@ class ProfissionalTI {
       'dificuldadeDeAprender': dificuldadeDeAprender,
       'dificuldadeDeArranjarEmprego': dificuldadeDeArranjarEmprego,
       'vagasInternacionais': vagasInternacionais,
+      'poderSelecionado': poderSelecionado,
     };
   }
   
@@ -34,6 +38,8 @@ class ProfissionalTI {
       map['dificuldadeDeAprender'] as int,
       map['dificuldadeDeArranjarEmprego'] as int,
       map['vagasInternacionais'] as int,
+      map['poderSelecionado'] as String
     );
   }
+
 }

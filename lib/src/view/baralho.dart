@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../model/carta_profissional_ti.dart';
 import '../settings/settings_view.dart';
-import 'profissional_ti.dart';
-import 'sample_item_details_view.dart';
+import 'carta.dart';
 
 class ProfissionalTIListView extends StatelessWidget {
   ProfissionalTIListView({
@@ -67,7 +67,7 @@ class ProfissionalTIListView extends StatelessWidget {
     items = [];
     cartasDoOponente = [];
 
-    List<ProfissionalTI> baralho = List.from(const [
+    List<ProfissionalTI> baralho = List.from( [
       ProfissionalTI(
         'Desenvolvedor Front-End',
         1231,
