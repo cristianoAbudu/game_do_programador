@@ -69,11 +69,11 @@ class MyApp extends StatelessWidget {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
-                  case ProfissionalTIDetailsView.routeName:
-                    return const ProfissionalTIDetailsView();
-                  case ProfissionalTIListView.routeName:
+                  case TrucoDetailsView.routeName:
+                    return const TrucoDetailsView();
+                  case TrucoListView.routeName:
                   default:
-                    return ProfissionalTIListView();
+                    return TrucoListView();
                 }
               },
             );

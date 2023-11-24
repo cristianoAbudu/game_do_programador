@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../model/carta_profissional_ti.dart';
+import '../model/carta_truco.dart';
 import '../settings/settings_view.dart';
 import 'carta.dart';
 
-class ProfissionalTIListView extends StatelessWidget {
-  ProfissionalTIListView({
+class TrucoListView extends StatelessWidget {
+  TrucoListView({
     super.key,
   });
 
-  List<ProfissionalTI> items = [];
-  List<ProfissionalTI> cartasDoOponente = [];
+  List<Truco> items = [];
+  List<Truco> cartasDoOponente = [];
   bool minhaVez = true;
 
   var floatingActionButton;
@@ -33,7 +34,7 @@ class ProfissionalTIListView extends StatelessWidget {
 
     Navigator.restorablePushNamed(
       context,
-      ProfissionalTIListView.routeName,
+      TrucoListView.routeName,
       arguments: {
         'items': items.map((item) => item.toMap()).toList(),
         'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
@@ -42,13 +43,13 @@ class ProfissionalTIListView extends StatelessWidget {
     );
   }
 
-  void getProfissionalTIItems(BuildContext context) {
+  void getTrucoItems(BuildContext context) {
     this.context = context;
 
     if (ModalRoute.of(context)!.settings.arguments != null) {
       final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      items = (arguments['items'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
-      cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
+      items = (arguments['items'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
+      cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
       minhaVez = (arguments['minhaVez'] as bool);
 
       if (items.length == 0) {
@@ -67,102 +68,246 @@ class ProfissionalTIListView extends StatelessWidget {
     items = [];
     cartasDoOponente = [];
 
-    List<ProfissionalTI> baralho = List.from( [
-      ProfissionalTI(
-        'Desenvolvedor Front-End',
-        1231,
-        12000,
-        23132,
-        23,
-        0,
+    List<Truco> baralho = List.from( [
+      Truco(
+        '2',
+        'ouro',
+        0
       ),
-      ProfissionalTI(
-        'Desenvolvedor Back-End',
-        342,
-        13000,
-        432,
-        432,
-        1,
+      Truco(
+        '2',
+        'espada',
+        1
       ),
-      ProfissionalTI(
-        'Desenvolvedor Full-Stack',
-        12,
-        8000,
-        231,
-        213,
-        1,
+      Truco(
+        '2',
+        'copas',
+        2
       ),
-      ProfissionalTI(
-        'Desenvolvedor Mobile',
-        31,
-        5000,
-        321,
-        1122,
-        1,
+      Truco(
+        '2',
+        'paus',
+        3
       ),
-      ProfissionalTI(
-        'Desenvolvedor Desktop',
-        321,
-        10000,
-        1645,
-        6541,
-        0,
+      Truco(
+        '3',
+        'ouro',
+        4
       ),
-      ProfissionalTI(
-        'Desenvolvedor de Jogos',
-        6524,
-        10000,
-        765,
-        65234,
-        1,
+      Truco(
+        '3',
+        'espada',
+        5
       ),
-      ProfissionalTI(
-        'Desenvolvedor de Sistemas Embarcados',
-        342,
-        10000,
-        7654,
-        18765,
-        1,
+      Truco(
+        '3',
+        'copas',
+        6
       ),
-      ProfissionalTI(
-        'Product Owner',
-        5643,
-        10000,
-        57653,
-        23,
-        1,
+      Truco(
+        '3',
+        'paus',
+        7
       ),
-      ProfissionalTI(
-        'Scrum Master',
-        43634,
-        15000,
-        6432,
-        45132,
-        1,
+      Truco(
+        '4',
+        'ouro',
+        8
       ),
-      ProfissionalTI(
-        'Analista de Requisitos',
-        5432,
-        10000,
-        765,
-        1623,
-        1,
+      Truco(
+        '4',
+        'espada',
+        9
       ),
-      ProfissionalTI(
-        'Analista de Suporte',
-        67543,
-        600,
-        6245,
-        6432,
-        0,
+      Truco(
+        '4',
+        'copas',
+        10
       ),
-      ProfissionalTI(
-        'Analista de Banco de Dados',
-        9768,
-        9000,
-        6357,
-        653,
-        1,
+      Truco(
+        '4',
+        'paus',
+        11
+      ),
+      Truco(
+        '5',
+        'ouro',
+        12
+      ),
+      Truco(
+        '5',
+        'espada',
+        13
+      ),
+      Truco(
+        '5',
+        'copas',
+        14
+      ),
+      Truco(
+        '5',
+        'paus',
+        15
+      ),
+      Truco(
+        '6',
+        'ouro',
+        16
+      ),
+      Truco(
+        '6',
+        'espada',
+        17
+      ),
+      Truco(
+        '6',
+        'copas',
+        18
+      ),
+      Truco(
+        '6',
+        'paus',
+        19
+      ),
+      Truco(
+        '7',
+        'ouro',
+        20
+      ),
+      Truco(
+        '7',
+        'espada',
+        21
+      ),
+      Truco(
+        '7',
+        'copas',
+        22
+      ),
+      Truco(
+        '7',
+        'paus',
+        23
+      ),
+      Truco(
+        'Q',
+        'ouro',
+        24
+      ),
+      Truco(
+        'Q',
+        'espada',
+        25
+      ),
+      Truco(
+        'Q',
+        'copas',
+        26
+      ),
+      Truco(
+        'Q',
+        'paus',
+        27
+      ),
+      Truco(
+        'J',
+        'ouro',
+        28
+      ),
+      Truco(
+        'J',
+        'espada',
+        29
+      ),
+      Truco(
+        'J',
+        'copas',
+        30
+      ),
+      Truco(
+        'J',
+        'paus',
+        31
+      ),
+      Truco(
+        'K',
+        'ouro',
+        32
+      ),
+      Truco(
+        'K',
+        'espada',
+        33
+      ),
+      Truco(
+        'K',
+        'copas',
+        34
+      ),
+      Truco(
+        'K',
+        'paus',
+        35
+      ),
+      Truco(
+        'A',
+        'ouro',
+        36
+      ),
+      Truco(
+        'A',
+        'espada',
+        37
+      ),
+      Truco(
+        'A',
+        'copas',
+        38
+      ),
+      Truco(
+        'A',
+        'paus',
+        39
+      ),
+      Truco(
+        '2',
+        'ouro',
+        40
+      ),
+      Truco(
+        '2',
+        'espada',
+        41
+      ),
+      Truco(
+        '2',
+        'copas',
+        42
+      ),
+      Truco(
+        '2',
+        'paus',
+        43
+      ),
+      Truco(
+        '3',
+        'ouro',
+        44
+      ),
+      Truco(
+        '3',
+        'espada',
+        45
+      ),
+      Truco(
+        '3',
+        'copas',
+        46
+      ),
+      Truco(
+        '3',
+        'paus',
+        47
       ),
     ]);
 
@@ -178,7 +323,7 @@ class ProfissionalTIListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getProfissionalTIItems(context);
+    getTrucoItems(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -198,7 +343,7 @@ class ProfissionalTIListView extends StatelessWidget {
           Text(minhaVez ? 'Minha vez' : 'Vez do oponente'),
           Expanded(
             child: ListView.builder(
-              restorationId: 'ProfissionalTIListView',
+              restorationId: 'TrucoListView',
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 final item = items[index];
@@ -211,7 +356,7 @@ class ProfissionalTIListView extends StatelessWidget {
                   onTap: () {
                     Navigator.restorablePushNamed(
                       context,
-                      ProfissionalTIDetailsView.routeName,
+                      TrucoDetailsView.routeName,
                       arguments: {
                         'items': items.map((item) => item.toMap()).toList(),
                         'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),

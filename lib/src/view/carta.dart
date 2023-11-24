@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:game_do_programador/src/controller/profissional_ti_controller.dart';
-import 'package:game_do_programador/src/model/carta_profissional_ti.dart';
+import 'package:game_do_programador/src/controller/truco_controller.dart';
 import 'package:game_do_programador/src/model/jogador.dart';
 import 'package:game_do_programador/src/view/baralho.dart';
 
-/// Displays detailed information about a ProfissionalTI.
-class ProfissionalTIDetailsView extends StatefulWidget {
-  const ProfissionalTIDetailsView({Key? key}) : super(key: key);
+import '../model/carta_truco.dart';
+
+/// Displays detailed information about a Truco.
+class TrucoDetailsView extends StatefulWidget {
+  const TrucoDetailsView({Key? key}) : super(key: key);
 
   static const routeName = '/sample_item';
 
   @override
-  _ProfissionalTIDetailsViewState createState() => _ProfissionalTIDetailsViewState();
+  _TrucoDetailsViewState createState() => _TrucoDetailsViewState();
 }
 
-class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
-  late ProfissionalTiController controller;
-  late String poderSelecionado = '';
+class _TrucoDetailsViewState extends State<TrucoDetailsView> {
+  late TrucoController controller;
 
   @override
   Widget build(BuildContext context) {
     var minhaVez;
 
-    late Jogador<ProfissionalTI> eu;
-    late Jogador<ProfissionalTI> oponente;
+    late Jogador<Truco> eu;
+    late Jogador<Truco> oponente;
     final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-    var minhaCarta = ProfissionalTI.fromMap(arguments['item'] as Map<String, dynamic>);
-    var minhasCartas = (arguments['items'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
+    var minhaCarta = Truco.fromMap(arguments['item'] as Map<String, dynamic>);
+    var minhasCartas = (arguments['items'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
     eu = Jogador(minhaCarta, minhasCartas);
 
-    var cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => ProfissionalTI.fromMap(item as Map<String, dynamic>)).toList();
+    var cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
     minhaVez = (arguments['minhaVez'] as bool);
 
     final cartasDoOponenteEmbaralhadas = List.from(cartasDoOponente);
@@ -39,7 +39,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
 
     oponente = Jogador(cartaDoOponente, cartasDoOponente);
 
-    controller = ProfissionalTiController(
+    controller = TrucoController(
       eu: eu,
       oponente: oponente,
       minhaVez: minhaVez,
@@ -62,171 +62,18 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
             children: [
               TableRow(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if(minhaVez){
-                          poderSelecionado = 'dificuldadeDeAprender';
-                          print(poderSelecionado);
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'dificuldadeDeAprender' ? Colors.yellow : null,
-                        child: Text('Dificuldade de aprender:'),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                         if(minhaVez){
-                          poderSelecionado = 'dificuldadeDeAprender';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'dificuldadeDeAprender' ? Colors.yellow : null,
-                        child: Text(minhaCarta.dificuldadeDeAprender.toString()),
-                      ),
+                  TableCell(
+                    child: Container(
+                      child: Text(minhaCarta.nome),
                     ),
                   ),
                 ],
               ),
               TableRow(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                         if(minhaVez){
-                          poderSelecionado = 'dificuldadeDeArranjarEmprego';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'dificuldadeDeArranjarEmprego' ? Colors.yellow : null,
-                        child: Text('Dificuldade de arranjar emprego:'),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                         if(minhaVez){
-                          poderSelecionado = 'dificuldadeDeArranjarEmprego';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'dificuldadeDeArranjarEmprego' ? Colors.yellow : null,
-                        child: Text(minhaCarta.dificuldadeDeArranjarEmprego.toString()),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if(minhaVez){
-                          poderSelecionado = 'salario';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'salario' ? Colors.yellow : null,
-                        child: Text('Salário:'),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if(minhaVez){
-                          poderSelecionado = 'salario';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'salario' ? Colors.yellow : null,
-                        child: Text(minhaCarta.salario.toString()),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if(minhaVez){
-                          poderSelecionado = 'stress';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'stress' ? Colors.yellow : null,
-                        child: Text('Stress:'),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if(minhaVez){
-                          poderSelecionado = 'stress';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'stress' ? Colors.yellow : null,
-                        child: Text(minhaCarta.stress.toString()),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if(minhaVez){
-                          poderSelecionado = 'vagasInternacionais';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'vagasInternacionais' ? Colors.yellow : null,
-                        child: Text('Vagas internacionais:'),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if(minhaVez){
-                          poderSelecionado = 'vagasInternacionais';
-                        }
-                      });
-                    },
-                    child: TableCell(
-                      child: Container(
-                        color: poderSelecionado == 'vagasInternacionais' ? Colors.yellow : null,
-                        child: Text(minhaCarta.vagasInternacionais.toString()),
-                      ),
+                  TableCell(
+                    child: Container(
+                      child: Text(minhaCarta.naipe),
                     ),
                   ),
                 ],
@@ -235,7 +82,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
           ),
           ElevatedButton(
             onPressed: () {
-              String mensagem = controller.jogar(poderSelecionado);
+              String mensagem = controller.jogar();
 
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -245,7 +92,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
 
               Navigator.restorablePushNamed(
                 context,
-                ProfissionalTIListView.routeName,
+                TrucoListView.routeName,
                 arguments: {
                   'items': minhasCartas.map((item) => item.toMap()).toList(),
                   'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
