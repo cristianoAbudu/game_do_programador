@@ -16,10 +16,10 @@ class ProfissionalTIDetailsView extends StatefulWidget {
 
 class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
   late ProfissionalTiController controller;
+  late String poderSelecionado = '';
 
   @override
   Widget build(BuildContext context) {
-    var poderSelecionado = '';
     var minhaVez;
 
     late Jogador<ProfissionalTI> eu;
@@ -43,7 +43,6 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
       eu: eu,
       oponente: oponente,
       minhaVez: minhaVez,
-      poderSelecionado: poderSelecionado,
     ); 
 
     return Scaffold(
@@ -67,7 +66,8 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                         if(minhaVez){
-                          controller.poderSelecionado = 'dificuldadeDeAprender';
+                          poderSelecionado = 'dificuldadeDeAprender';
+                          print(poderSelecionado);
                         }
                       });
                     },
@@ -82,7 +82,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                          if(minhaVez){
-                          controller.poderSelecionado = 'dificuldadeDeAprender';
+                          poderSelecionado = 'dificuldadeDeAprender';
                         }
                       });
                     },
@@ -101,7 +101,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                          if(minhaVez){
-                          controller.poderSelecionado = 'dificuldadeDeArranjarEmprego';
+                          poderSelecionado = 'dificuldadeDeArranjarEmprego';
                         }
                       });
                     },
@@ -116,7 +116,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                          if(minhaVez){
-                          controller.poderSelecionado = 'dificuldadeDeArranjarEmprego';
+                          poderSelecionado = 'dificuldadeDeArranjarEmprego';
                         }
                       });
                     },
@@ -135,7 +135,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                         if(minhaVez){
-                          controller.poderSelecionado = 'salario';
+                          poderSelecionado = 'salario';
                         }
                       });
                     },
@@ -150,7 +150,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                         if(minhaVez){
-                          controller.poderSelecionado = 'salario';
+                          poderSelecionado = 'salario';
                         }
                       });
                     },
@@ -169,7 +169,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                         if(minhaVez){
-                          controller.poderSelecionado = 'stress';
+                          poderSelecionado = 'stress';
                         }
                       });
                     },
@@ -184,7 +184,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                         if(minhaVez){
-                          controller.poderSelecionado = 'stress';
+                          poderSelecionado = 'stress';
                         }
                       });
                     },
@@ -203,7 +203,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                         if(minhaVez){
-                          controller.poderSelecionado = 'vagasInternacionais';
+                          poderSelecionado = 'vagasInternacionais';
                         }
                       });
                     },
@@ -218,7 +218,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
                     onTap: () {
                       setState(() {
                         if(minhaVez){
-                          controller.poderSelecionado = 'vagasInternacionais';
+                          poderSelecionado = 'vagasInternacionais';
                         }
                       });
                     },
@@ -235,7 +235,7 @@ class _ProfissionalTIDetailsViewState extends State<ProfissionalTIDetailsView> {
           ),
           ElevatedButton(
             onPressed: () {
-              String mensagem = controller.jogar();
+              String mensagem = controller.jogar(poderSelecionado);
 
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

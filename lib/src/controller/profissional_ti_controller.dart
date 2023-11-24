@@ -8,17 +8,16 @@ class ProfissionalTiController {
   Jogador<ProfissionalTI> eu;
   Jogador<ProfissionalTI> oponente;
   bool minhaVez;
-  String poderSelecionado;
 
   ProfissionalTiController({
     required this.eu,
     required this.oponente,
     required this.minhaVez,
-    this.poderSelecionado = '',
   });
 
-  String jogar() {
+  String jogar(String poderSelecionado) {
     print(oponente.cartaSelecionada.toMap());
+    print(poderSelecionado) ;
 
     if(!minhaVez){
       final _selectedPropertyControllerPossibilities = ['dificuldadeDeAprender', 'dificuldadeDeArranjarEmprego', 'salario', 'stress', 'vagasInternacionais'];

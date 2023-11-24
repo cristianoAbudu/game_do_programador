@@ -16,7 +16,7 @@ class ProfissionalTI extends Carta {
   final int dificuldadeDeAprender;
   final int dificuldadeDeArranjarEmprego;
   final int vagasInternacionais;
-  String poderSelecionado;
+  late String poderSelecionado = '';
 
   Map<String, dynamic> toMap() {
     return {
@@ -37,8 +37,7 @@ class ProfissionalTI extends Carta {
       map['salario'] as int,
       map['dificuldadeDeAprender'] as int,
       map['dificuldadeDeArranjarEmprego'] as int,
-      map['vagasInternacionais'] as int,
-      map['poderSelecionado'] as String
+      map['vagasInternacionais'] as int
     );
   }
 
