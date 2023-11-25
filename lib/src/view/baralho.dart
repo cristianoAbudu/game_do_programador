@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../model/carta_profissional_ti.dart';
 import '../model/carta_truco.dart';
 import '../settings/settings_view.dart';
 import 'carta.dart';
@@ -313,9 +312,9 @@ class TrucoListView extends StatelessWidget {
 
     baralho.shuffle();
     baralho.forEach((element) {
-      if (items.length < 6) {
+      if (items.length < 3) {
         items.add(element);
-      } else {
+      } else if(cartasDoOponente.length < 3){
         cartasDoOponente.add(element);
       }
     });
@@ -349,9 +348,15 @@ class TrucoListView extends StatelessWidget {
                 final item = items[index];
 
                 return ListTile(
-                  title: Text('${item.nome}'),
+                  title: Text(
+                    '${item.nome}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: (item.naipe == 'ouro' || item.naipe == 'copas') ? Colors.red : Colors.black,
+                    ),
+                  ),
                   leading: CircleAvatar(
-                    foregroundImage: AssetImage('assets/images/${item.nome}.jpeg'),
+                    foregroundImage: AssetImage('assets/images/${item.naipe}.jpeg'),
                   ),
                   onTap: () {
                     Navigator.restorablePushNamed(
