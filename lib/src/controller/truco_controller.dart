@@ -16,29 +16,35 @@ class TrucoController {
   String jogar() {
     print(oponente.cartaSelecionada.toMap());
 
-    
-    throw Exception('Poder selecionado inválido');
+    if(eu.cartaSelecionada.score > oponente.cartaSelecionada.score){
+      return venceu();
+    } else if(eu.cartaSelecionada.score < oponente.cartaSelecionada.score){
+      return perdeu();
+    } 
+    throw Exception('Empate não deveria ocorrer verifique as cartas');
   }
 
   String venceu() {
     print('venceu');
-    oponente.cartasNaMao.remove(oponente.cartaSelecionada);
-    eu.cartasNaMao.add(oponente.cartaSelecionada);
-
-    print(eu.cartasNaMao.length);
-    print(oponente.cartasNaMao.length);
+    tirarCartaDaMao();
+    eu.pontuacao++;
 
     return 'Você venceu!';
+  }
 
+  void tirarCartaDaMao() {
+    eu.cartasNaMao.removeWhere(
+      (element) => element.score == eu.cartaSelecionada.score
+    );
+    oponente.cartasNaMao.removeWhere(
+      (element) => element.score == oponente.cartaSelecionada.score
+    );
   }
 
   String perdeu() {
-    print('perdeu');
-    oponente.cartasNaMao.add(eu.cartaSelecionada);
-    eu.cartasNaMao.removeWhere((element) => element.nome == eu.cartaSelecionada.nome);
-
-    print(eu.cartasNaMao.length);
-    print(oponente.cartasNaMao.length);
+    print('venceu');
+    tirarCartaDaMao();
+    oponente.pontuacao++;  
 
     return 'Você perdeu!';
   }

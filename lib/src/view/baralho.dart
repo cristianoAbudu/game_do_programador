@@ -17,6 +17,8 @@ class TrucoListView extends StatelessWidget {
   var gameMessage;
   var floatingActionButtonVisible = false;
   var context;
+  var pontuacaoMinha;
+  var pontuacaoOponente;
 
   static const routeName = '/';
 
@@ -31,6 +33,9 @@ class TrucoListView extends StatelessWidget {
     embaralhar();
     minhaVez = true;
 
+    pontuacaoMinha = 0;
+    pontuacaoOponente = 0;
+
     Navigator.restorablePushNamed(
       context,
       TrucoListView.routeName,
@@ -38,6 +43,8 @@ class TrucoListView extends StatelessWidget {
         'items': items.map((item) => item.toMap()).toList(),
         'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
         'minhaVez': minhaVez,
+        'pontuacaoMinha': pontuacaoMinha,
+        'pontuacaoOponente': pontuacaoOponente,
       },
     );
   }
@@ -50,13 +57,17 @@ class TrucoListView extends StatelessWidget {
       items = (arguments['items'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
       cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
       minhaVez = (arguments['minhaVez'] as bool);
+      pontuacaoMinha = (arguments['pontuacaoMinha'] as int);
+      pontuacaoOponente = (arguments['pontuacaoOponente'] as int);
 
-      if (items.length == 0) {
+      if (pontuacaoOponente >= 12) {
         gameMessage = 'Você perdeu o jogo!';
         colocarBotaoReset();
-      } else if (items.length == 12) {
+      } else if (pontuacaoMinha >= 12) {
         gameMessage = 'Você venceu o jogo!';
         colocarBotaoReset();
+      }else if (items.length == 0) {
+        embaralhar();
       }
     } else {
       embaralhar();
@@ -64,6 +75,7 @@ class TrucoListView extends StatelessWidget {
   }
 
   void embaralhar() {
+
     items = [];
     cartasDoOponente = [];
 
@@ -340,6 +352,13 @@ class TrucoListView extends StatelessWidget {
         children: [
           Text(gameMessage ?? ""),
           Text(minhaVez ? 'Minha vez' : 'Vez do oponente'),
+           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text('Eu: $pontuacaoMinha'),
+              Text('Oponente: $pontuacaoOponente'),
+            ],
+          ),
           Expanded(
             child: ListView.builder(
               restorationId: 'TrucoListView',
@@ -367,6 +386,8 @@ class TrucoListView extends StatelessWidget {
                         'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
                         'item': item.toMap(),
                         'minhaVez': minhaVez,
+                        'pontuacaoMinha': pontuacaoMinha,
+                        'pontuacaoOponente': pontuacaoOponente,
                       },
                     );
                   },

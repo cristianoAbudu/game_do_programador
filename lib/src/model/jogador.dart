@@ -1,18 +1,21 @@
 import 'package:game_do_programador/src/model/carta.dart';
 
 class Jogador<T extends Carta> {
-  const Jogador(
+  Jogador(
     this.cartaSelecionada,
     this.cartasNaMao,
+    this.pontuacao
   );
   
   final T cartaSelecionada;
   final List<T> cartasNaMao;
+ int pontuacao;
   
   Map<String, dynamic> toMap() {
     return {
       'cartaSelecionada': cartaSelecionada.toMap(),
       'cartasNaMao': cartasNaMao.map((item) => item.toMap()).toList(),
+      'pontuacao': pontuacao,
     };
   }
   
@@ -20,6 +23,7 @@ class Jogador<T extends Carta> {
     return Jogador(
       map['cartaSelecionada'] as T,
       map['cartasNaMao'] as List<T>,
+      map['pontuacao'] as int,
     );
   }
 }

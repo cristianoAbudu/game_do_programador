@@ -28,7 +28,8 @@ class _TrucoDetailsViewState extends State<TrucoDetailsView> {
 
     var minhaCarta = Truco.fromMap(arguments['item'] as Map<String, dynamic>);
     var minhasCartas = (arguments['items'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
-    eu = Jogador(minhaCarta, minhasCartas);
+    var pontuacaoMinha = (arguments['pontuacaoMinha'] as int);
+    eu = Jogador(minhaCarta, minhasCartas, pontuacaoMinha);
 
     var cartasDoOponente = (arguments['cartasDoOponente'] as List<dynamic>).map((item) => Truco.fromMap(item as Map<String, dynamic>)).toList();
     minhaVez = (arguments['minhaVez'] as bool);
@@ -37,7 +38,8 @@ class _TrucoDetailsViewState extends State<TrucoDetailsView> {
     cartasDoOponenteEmbaralhadas.shuffle();
     var cartaDoOponente = cartasDoOponenteEmbaralhadas.first;
 
-    oponente = Jogador(cartaDoOponente, cartasDoOponente);
+    var pontuacaoOponente = (arguments['pontuacaoOponente'] as int);
+    oponente = Jogador(cartaDoOponente, cartasDoOponente, pontuacaoOponente);
 
     controller = TrucoController(
       eu: eu,
@@ -47,38 +49,22 @@ class _TrucoDetailsViewState extends State<TrucoDetailsView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(minhaCarta.nome),
+        title: Text('Carta selecionada'),
       ),
       body: Column(
         children: [
           Text(minhaVez ? 'Minha vez' : 'Vez do oponente'),
-          Image.asset(
-            'assets/images/${minhaCarta.nome}.jpeg',
-            fit: BoxFit.cover,
-            width: double.infinity,
+          Text(
+            '${minhaCarta.nome}',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 200, // Increase the font size to make the text bigger
+              color: (minhaCarta.naipe == 'ouro' || minhaCarta.naipe == 'copas') ? Colors.red : Colors.black,
+            ),
           ),
-          Table(
-            border: TableBorder.all(),
-            children: [
-              TableRow(
-                children: [
-                  TableCell(
-                    child: Container(
-                      child: Text(minhaCarta.nome),
-                    ),
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(
-                    child: Container(
-                      child: Text(minhaCarta.naipe),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          Image.asset(
+            'assets/images/${minhaCarta.naipe}.jpeg',
+            fit: BoxFit.cover,
           ),
           ElevatedButton(
             onPressed: () {
@@ -97,6 +83,8 @@ class _TrucoDetailsViewState extends State<TrucoDetailsView> {
                   'items': minhasCartas.map((item) => item.toMap()).toList(),
                   'cartasDoOponente': cartasDoOponente.map((item) => item.toMap()).toList(),
                   'minhaVez': !minhaVez,
+                  'pontuacaoMinha': eu.pontuacao,
+                  'pontuacaoOponente': oponente.pontuacao,
                 },
               );
 
